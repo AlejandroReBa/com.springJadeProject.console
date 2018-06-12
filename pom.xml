@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.springJadeProject</groupId>
+    <artifactId>console</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>war</packaging>
+
+    <name>console</name>
+    <description>Demo project for Spring Boot</description>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.0.1.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!--JSF interface specification-->
+        <!--<dependency>-->
+            <!--<groupId>org.apache.myfaces.core</groupId>-->
+            <!--<artifactId>myfaces-impl</artifactId>-->
+            <!--<version>2.3.0</version>-->
+        <!--</dependency>-->
+
+        <!--<dependency>-->
+            <!--<groupId>org.apache.myfaces.core</groupId>-->
+            <!--<artifactId>myfaces-api</artifactId>-->
+            <!--<version>2.3.0</version>-->
+        <!--</dependency>-->
+
+        <!--Mojarra implementation -->
+        <dependency>
+            <groupId>com.sun.faces</groupId>
+            <artifactId>jsf-api</artifactId>
+            <version>2.2.17</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.faces</groupId>
+            <artifactId>jsf-impl</artifactId>
+            <version>2.2.17</version>
+        </dependency>
+
+        <!--needed so the JVM can parse and execute JSF view on runtime-->
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-jasper</artifactId>
+        </dependency>
+
+        <!--<dependency>-->
+            <!--<groupId>org.apache.tomcat.embed</groupId>-->
+            <!--<artifactId>tomcat-embed-core</artifactId>-->
+        <!--</dependency>-->
+
+        <!--&lt;!&ndash; https://mvnrepository.com/artifact/org.apache.tomcat.embed/tomcat-embed-logging-juli &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>org.apache.tomcat.embed</groupId>-->
+            <!--<artifactId>tomcat-embed-logging-juli</artifactId>-->
+            <!--<version>8.5.2</version>-->
+        <!--</dependency>-->
+
+
+
+
+        <!--open-source routing and URL rewriting solution for Servlet and Java Web Frameworks-->
+        <dependency>
+            <groupId>org.ocpsoft.rewrite</groupId>
+            <artifactId>rewrite-servlet</artifactId>
+            <version>3.4.2.Final</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.ocpsoft.rewrite</groupId>
+            <artifactId>rewrite-integration-faces</artifactId>
+            <version>3.4.2.Final</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.ocpsoft.rewrite</groupId>
+            <artifactId>rewrite-config-prettyfaces</artifactId>
+            <version>3.4.2.Final</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.ocpsoft.logging</groupId>
+            <artifactId>logging-adapter-slf4j</artifactId>
+            <version>1.0.5.Final</version>
+        </dependency>
+
+        <!--open source UI framework for JSF-->
+        <dependency>
+            <groupId>org.primefaces</groupId>
+            <artifactId>primefaces</artifactId>
+            <version>6.2</version>
+        </dependency>
+
+        <!--<dependency>-->
+            <!--<groupId>org.primefaces.extensions</groupId>-->
+            <!--<artifactId>primefaces-extensions</artifactId>-->
+            <!--<version>6.2.4</version>-->
+        <!--</dependency>-->
+
+    </dependencies>
+
+    <!--This configuration is important because Rewrite isn't prepared to scan for configurations on non-classical web applications-->
+    <build>
+        <outputDirectory>src/main/webapp/WEB-INF/classes</outputDirectory>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+
+</project>

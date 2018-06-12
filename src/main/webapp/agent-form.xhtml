@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<ui:composition template="toolbar.xhtml">
+    <ui:define name="content">
+        <h:form id="agentForm">
+            <p:panel id="panelForm" header="Create a new agent" style="text-align: center;">
+                <h:panelGrid id="panelGrid" columns="3">
+                    <p:outputLabel for="name" value="Name:" />
+                    <p:inputText id="name" value="#{agentController.agentName}" required="true"
+                                 requiredMessage="Please enter the agent name">
+                    <f:ajax render="createButton"/>
+                    </p:inputText>
+                    <p:message for="name" errorStyle="color:red;"/>
+                    <p:outputLabel for="bannedNames" value="Banned Names (information):" />
+                    <p:selectOneMenu id="bannedNames" value="#{agentController.firstBannedName}">
+                        <f:selectItems value="#{agentController.agentBannedNamesList}" var="selectedBannedName"
+                                       itemLabel="#{selectedBannedName}" itemValue="#{selectedBannedName}" />
+                    </p:selectOneMenu>
+                    <p:message for="bannedNames"/>
+                    <p:outputLabel for="class" value="Class:" />
+                    <p:selectOneMenu id="class" value="#{agentController.selectedClassName}"
+                                     required="true" requiredMessage="Please select a class">
+                        <f:selectItems value="#{agentController.agentClassNamesList}" var="selectedClassName"
+                                       itemLabel="#{selectedClassName}" itemValue="#{selectedClassName}" />
+                    </p:selectOneMenu>
+                    <p:message for="class"/>
+                </h:panelGrid>
+                <h:commandButton id="createButton" value="Create Agent"
+                                 disabled="#{!agentController.checkName()}"
+                                 action="#{agentController.create()}" >
+                </h:commandButton>
+            </p:panel>
+        </h:form>
+    </ui:define>
+</ui:composition>
+</html>
+
