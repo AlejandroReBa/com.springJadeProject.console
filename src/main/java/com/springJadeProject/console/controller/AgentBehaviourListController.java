@@ -129,10 +129,7 @@ public class AgentBehaviourListController {
     }
 
     public String resetBehaviour(Behaviour behaviour){
-//        resettingBehaviour = true;
-        //todo fix!!! check if the behaviour was already added to the agent to reset it!!!!!!!!!
         agentService.resetBehaviour(agentSelected, behaviour);
-//        resettingBehaviour = false;
         return "/behaviour-list.xhtml?faces-redirect=true";
     }
 

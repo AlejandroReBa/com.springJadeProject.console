@@ -63,18 +63,21 @@ public class APIAgentDao implements AgentDaoInterface{
 
     @Override
     public boolean createAgent(String className, String agentName) {
-        String url = API_URL.concat("/agent/create");
+//        String url = API_URL.concat("/agent/create");
+        String url = API_URL.concat("/agent");
+        HttpMethod httpMethod = HttpMethod.PUT;
         JsonAgentBehaviourModel jsonRequest = createJsonRequest(agentName);
         jsonRequest.setClassName(className);
-        return sendJsonRequestToAPI(url, jsonRequest);
+        return sendJsonRequestToAPI(url, httpMethod, jsonRequest);
     }
 
     @Override
     public boolean deleteAgent(Agent agent) {
         System.out.println("deleteAgentDao IN");
-        String url = API_URL.concat("/agent/delete");
+        String url = API_URL.concat("/agent");
+        HttpMethod httpMethod = HttpMethod.DELETE;
         JsonAgentBehaviourModel jsonRequest = createJsonRequest(agent.getNickname());
-        return sendJsonRequestToAPI(url, jsonRequest);
+        return sendJsonRequestToAPI(url, httpMethod, jsonRequest);
     }
 
     @Override
@@ -210,7 +213,11 @@ public class APIAgentDao implements AgentDaoInterface{
         return createJsonRequest(agentName, null, false, false);
     }
 
-    private boolean sendJsonRequestToAPI(String url, JsonAgentBehaviourModel jsonRequest) {
+    private boolean sendJsonRequestToAPI (String url, JsonAgentBehaviourModel jsonRequest){
+        return sendJsonRequestToAPI(url, HttpMethod.POST, jsonRequest);
+    }
+
+    private boolean sendJsonRequestToAPI(String url, HttpMethod httpMethod, JsonAgentBehaviourModel jsonRequest) {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -220,7 +227,8 @@ public class APIAgentDao implements AgentDaoInterface{
         try {
             ResponseEntity<JsonResponseMessage> agentResponse =
                     restTemplate.exchange(url,
-                            HttpMethod.POST, entity, JsonResponseMessage.class);
+                            httpMethod, entity, JsonResponseMessage.class);
+//                            HttpMethod.POST, entity, JsonResponseMessage.class);
 
             if (agentResponse.getStatusCode() == HttpStatus.OK) {
                 //todo do something. give information to the user
@@ -244,42 +252,4 @@ public class APIAgentDao implements AgentDaoInterface{
 
         return true;
     }
-
-    //todo maybe do a common method to send<Parameter>RequestToAPI. you pass the entity with already in behaviourName or agentName as example
-//    private boolean sendJsonAgentNameRequestToAPI(String url, String agentName) {
-//        RestTemplate restTemplate = new RestTemplate();
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.APPLICATION_JSON);
-//
-//        JsonAgentBehaviourModel jsonRequest = new JsonAgentBehaviourModel();
-//        jsonRequest.setAgentName(agentName);
-//        HttpEntity<JsonAgentBehaviourModel> entity = new HttpEntity<>(jsonRequest, headers);
-//
-//        try {
-//            ResponseEntity<JsonResponseMessage> agentResponse =
-//                    restTemplate.exchange(url,
-//                            HttpMethod.POST, entity, JsonResponseMessage.class);
-//
-//            if (agentResponse.getStatusCode() == HttpStatus.OK) {
-//                //todo do something. give information to the user
-//                System.out.println(agentResponse.getBody().getMessage());
-//            }
-//        } catch (final HttpClientErrorException httpClientErrorException) {
-//            //the agent was already running for init, or was already stopped for stop and restart,but it is not actually a problem.
-//            // When we manage the facelets buttons it will be unable to click, so this sentence is only for robustness
-//            if (httpClientErrorException.getStatusCode() == HttpStatus.CONFLICT){
-//                return true;
-//            }else {
-//                throw new ExternalCallBadRequestException(httpClientErrorException.getMessage() + " for " + url + " with " + httpClientErrorException.getResponseBodyAsString());
-//            }
-//        } catch (HttpServerErrorException httpServerErrorException) {
-//            throw new ExternalCallServerErrorException(httpServerErrorException.getMessage() + " for " + url + " with " + httpServerErrorException.getResponseBodyAsString());
-//        } catch (Exception ex){
-//            System.out.println(ex.getMessage());
-//            //connection refused for example
-//            return false;
-//        }
-//
-//        return true;
-//    }
 }

@@ -13,25 +13,26 @@
             <p:panel header="Agent List" style="text-align: center;">
                 <p:dataTable id="table"
                              var="agent" value="#{agentListController.agents}"
+                             tableStyle="width:auto" resizableColumns="true"
                              style="text-align: center;"
                              emptyMessage="No agents found">
 
-                    <p:column style="width: 60%; text-align: center;">
+                    <p:column style="width: 60%;">
                         <f:facet name="header">Agent name</f:facet>
                         <h:outputText value="#{agent.nickname}"/>
                     </p:column>
 
-                    <p:column style="width: 60%; text-align: center;">
+                    <p:column style="width: 60%;">
                         <f:facet name="header">Agent class</f:facet>
                         <h:outputText value="#{agent.agentClassName}"/>
                     </p:column>
 
-                    <p:column style="width: 85%; text-align: center;">
+                    <p:column style="width: 85%;">
                         <f:facet name="header">Name in container</f:facet>
                         <h:outputText value="#{agent.name}"/>
                     </p:column>
 
-                    <p:column style="width: 40%; text-align: center;">
+                    <p:column style="width: 40%;">
                         <f:facet name="header">Running in container</f:facet>
                         <h:outputText value="#{agent.initiated}">
                         </h:outputText>
@@ -44,7 +45,7 @@
                     </p:column>
 
 
-                    <p:column style="width: 50%; text-align: center;">
+                    <p:column style="width: 50%;">
                         <f:facet name="header">Action</f:facet>
                         <h:commandLink id="init-button"
                                        rendered="#{!agent.initiated}"
@@ -69,7 +70,7 @@
                         </h:commandLink>
                      </p:column>
 
-                    <p:column style="width: 30%; text-align: center;">
+                    <p:column style="width: 30%;">
                         <f:facet name="header">Delete Agent</f:facet>
                         <h:commandLink id="delete-button"
                                        onclick="return confirm('Are you sure you want to delete this agent?');"
