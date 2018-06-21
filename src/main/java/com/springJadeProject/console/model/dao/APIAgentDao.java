@@ -82,8 +82,10 @@ public class APIAgentDao implements AgentDaoInterface{
 
     @Override
     public boolean initAgent(Agent agent) {
-        String url = API_URL.concat("/agent/init");
+//        String url = API_URL.concat("/agent/init");
+        String url = API_URL.concat("/agent");
         JsonAgentBehaviourModel jsonRequest = createJsonRequest(agent.getNickname());
+        jsonRequest.setAction(JsonAgentBehaviourModel.INIT);
         return sendJsonRequestToAPI(url, jsonRequest);
 
 //        return sendJsonAgentNameRequestToAPI(url, agent.getNickname());
@@ -91,44 +93,42 @@ public class APIAgentDao implements AgentDaoInterface{
 
     @Override
     public boolean stopAgent(Agent agent) {
-        String url = API_URL.concat("/agent/stop");
+//        String url = API_URL.concat("/agent/stop");
+        String url = API_URL.concat("/agent");
         JsonAgentBehaviourModel jsonRequest = createJsonRequest(agent.getNickname());
+        jsonRequest.setAction(JsonAgentBehaviourModel.STOP);
         return sendJsonRequestToAPI(url, jsonRequest);
     }
 
     @Override
     public boolean restartAgent(Agent agent) {
-        String url = API_URL.concat("/agent/restart");
+//        String url = API_URL.concat("/agent/restart");
+        String url = API_URL.concat("/agent");
         JsonAgentBehaviourModel jsonRequest = createJsonRequest(agent.getNickname());
+        jsonRequest.setAction(JsonAgentBehaviourModel.RESTART);
         return sendJsonRequestToAPI(url, jsonRequest);
     }
 
     @Override
     public boolean addBehavioursToAgent(Agent agent, Collection<Behaviour> behaviours) {
-        String url = API_URL.concat("/agent/add/behaviour");
-        return manageBehavioursFromAgent(url, agent.getNickname(), behaviours);
-
-//        String agentName = agent.getNickname();
-//        JsonAgentBehaviourModel jsonRequest;
-//        boolean allBehavioursAdded = true;
-//
-//        for (Behaviour behaviour : behaviours){
-//            jsonRequest = createJsonRequest(agentName, behaviour.getBehaviourName(), true);
-//            allBehavioursAdded = allBehavioursAdded && sendJsonRequestToAPI(url, jsonRequest);
-//        }
-//        return allBehavioursAdded;
+//        String url = API_URL.concat("/agent/add/behaviour");
+        String url = API_URL.concat("/agent/behaviour");
+        return manageBehavioursFromAgent(url, JsonAgentBehaviourModel.ADD, agent.getNickname(), behaviours);
     }
 
     @Override
     public boolean removeBehavioursFromAgent(Agent agent, Collection<Behaviour> behaviours) {
-        String url = API_URL.concat("/agent/remove/behaviour");
-        return manageBehavioursFromAgent(url, agent.getNickname(), behaviours);
+//        String url = API_URL.concat("/agent/remove/behaviour");
+        String url = API_URL.concat("/agent/behaviour");
+        return manageBehavioursFromAgent(url, JsonAgentBehaviourModel.REMOVE, agent.getNickname(), behaviours);
     }
 
     @Override
     public boolean resetBehaviourFromAgent(Agent agent, Behaviour behaviour) {
-        String url = API_URL.concat("/agent/reset/behaviour");
+//        String url = API_URL.concat("/agent/reset/behaviour");
+        String url = API_URL.concat("/agent/behaviour");
         JsonAgentBehaviourModel jsonRequest = createJsonRequest(agent.getNickname(), behaviour.getBehaviourName());
+        jsonRequest.setAction(JsonAgentBehaviourModel.RESET);
         return sendJsonRequestToAPI(url, jsonRequest);
     }
 
@@ -139,13 +139,14 @@ public class APIAgentDao implements AgentDaoInterface{
         return requestStringListToAPI(url);
     }
 
-    private boolean manageBehavioursFromAgent(String url, String agentName, Collection<Behaviour> behaviours){
+    private boolean manageBehavioursFromAgent(String url, String action, String agentName, Collection<Behaviour> behaviours){
         JsonAgentBehaviourModel jsonRequest;
         boolean allBehavioursDone = true; //=>false if server have had problems to add/remove some behaviour
 
         for (Behaviour behaviour : behaviours){
             //On the server, startNow is only read when you add a behaviour. RemoveForever is only read when you remove a behaviour
             jsonRequest = createJsonRequest(agentName, behaviour.getBehaviourName(), true, true);
+            jsonRequest.setAction(action);
             allBehavioursDone = allBehavioursDone && sendJsonRequestToAPI(url, jsonRequest);
         }
         return allBehavioursDone;
